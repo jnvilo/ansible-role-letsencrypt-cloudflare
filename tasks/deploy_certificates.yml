@@ -1,0 +1,10 @@
+- name: Copy ssl certificates to /etc/ssl 
+  copy:
+    src: "{{role_path}}/files/{{inventory_hostname}}"
+    dest: /etc/ssl/
+    mode: '0600'
+    owner: root
+    group: root
+  tags:
+    - copy_ssl
+  

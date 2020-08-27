@@ -1,0 +1,50 @@
+#- name: make sure we have the local backup directory
+#  file:
+#    path: "{{role_path}}/files/{{certificate_common_name}}"
+#    state: directory
+#    mode: "777"
+#  delegate_to: 127.0.0.1
+#  tags:
+#    - make_backup
+
+- name: make sure we have the remote backup directory
+  file:
+    path: "/tmp/{{certificate_common_name}}"
+    state: directory
+    mode: "755"
+  tags:
+    - make_backup
+
+- name: copy certs to local backup
+  copy:
+    src: "/etc/ssl/{{certificate_common_name}}/{{item}}"
+    dest: "/tmp/{{certificate_common_name}}/{{item}}"
+    owner: "{{ansible_user}}"
+    mode: '700'
+    remote_src: yes
+  with_items:
+    - "{{csr_filename}}"
+    - "{{crt_filename}}"
+    - "{{key_filename}}"
+    - "{{intermediate_filename}}"
+    - "{{fullchain_filename}}"
+    
+  tags:
+    make_backup
+    
+- name: download certs
+  fetch:
+    dest: "/tmp/{{item}}"
+    src: "/tmp/{{certificate_common_name}}/{{item}}"
+    flat: yes
+    become_user: 
+  with_items:
+    - "{{csr_filename}}"
+    - "{{crt_filename}}"
+    - "{{key_filename}}"
+    - "{{intermediate_filename}}"
+    - "{{fullchain_filename}}"
+  tags:
+    - download_backup
+    - make_backup
+    
