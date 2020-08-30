@@ -1,4 +1,12 @@
 ---
+letsencrypt_email: "cloud-admin@optiscangroup.com"
+cloudflare_email: "cloud-admin@optiscangroup.com"
+cloudflare_api_key: "f19ffb4a59a1d33c03528cefa2a50dde86d6c"
+cloudflare_domain: "abakuscloud.com" 
+letsencrypt_production: no
+include_intermediate: yes
+
+
 certificate_common_name: "{{ inventory_hostname }}"
 certificate_remaining_days: 10
 certificate_sans: []
@@ -31,8 +39,5 @@ include_intermediate: no
 intermediate_filename: "{{ certificate_common_name }}.intermediate.crt"
 fullchain_filename: "{{ certificate_common_name }}.fullchain.pem"
 
-cloudflare_email: ""
-cloudflare_api_key: ""
-cloudflare_domain: ""
 
 cleanup_all: no
