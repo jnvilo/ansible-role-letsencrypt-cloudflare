@@ -26,16 +26,13 @@ copy_key_full_path: ""
 copy_intermediate_full_path: ""
 copy_fullchain_full_path: ""
 
-letsencrypt_email: ""
 letsencrypt_key_size: 2048
 letsencrypt_key_directory: /etc/ssl/lets_encrypt
 letsencrypt_key_filename: letsencrypt_account.key
-letsencrypt_production: no
 letsencrypt_acme_directory: "{{ 'https://acme-v02.api.letsencrypt.org/directory' if letsencrypt_production else 'https://acme-staging-v02.api.letsencrypt.org/directory' }}"
 letsencrypt_acme_version: 2
 
 
-include_intermediate: no
 intermediate_filename: "{{ certificate_common_name }}.intermediate.crt"
 fullchain_filename: "{{ certificate_common_name }}.fullchain.pem"
 
