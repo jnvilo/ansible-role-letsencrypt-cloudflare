@@ -1,68 +1,38 @@
-[![Build Status](https://travis-ci.org/bendews/ansible-letsencrypt-cloudflare.svg?branch=master)](https://travis-ci.org/bendews/ansible-letsencrypt-cloudflare)
+Role Name
+=========
 
-# LetsEncrypt-Cloudflare 
+A brief description of the role goes here.
 
-This role simplifies the process of renewing LetsEncrypt Certificates when utilising Cloudflare as a DNS provider.
+Requirements
+------------
 
-## Requirements
+Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-- Python >= 2.6
-- OpenSSL (will automatically be installed if supported)
+Role Variables
+--------------
 
-## Role Variables
-Available variables are listed below, along with default values (see `defaults/main.yml` for many more variables that can be modified)
+A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
-### Required Fields:
+Dependencies
+------------
 
-    letsencrypt_email: ""
-    cloudflare_email: ""
-    cloudflare_api_key: "" # 'Global' API key for specified Cloudflare account
-    cloudflare_domain: "" # Cloudflare hosted DNS zone for entries to be created under
+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
-### Important Notes:
-By default, the role will use the inventory hostname as the Common Name to request a certificate, and place all generated/recieved certificate files in `/etc/ssl/[Certificate Common Name]`, and all LetsEncrypt account files in `/etc/ssl/lets_encrypt`. These paths can all be overridden (see `defaults/main.yml`).
+Example Playbook
+----------------
 
-Furthermore, the certificate files can also be copied and renamed to another location after generation, by modifying any of the following variables:
-
-    copy_csr_full_path: ""
-    copy_crt_full_path: ""
-    copy_key_full_path: ""
-    copy_intermediate_full_path: "" # Requires include_intermediate set to 'yes'
-    copy_fullchain_full_path: "" # Requires include_intermediate set to 'yes'
-
-The role also defaults to using the "staging" letsencrypt endpoints which will generate functionally correct yet untrusted certificates. In order to generate valid certificates, set:  
-
-    letsencrypt_production: yes
-
-
-Generated files can be removed after use by specifying the following variable:
-
-    cleanup_all: yes
-
-# Example Playbook
+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
     - hosts: servers
-      tasks:
-        - name: Renew/Download new SSL certificates
-          include_role:
-            name: letsencrypt-cloudflare
-          vars:
-            letsencrypt_email: "a@abc.com"
-            cloudflare_email: "a@abc.com"
-            cloudflare_domain: "abc.com"
-            cloudflare_api_key: "AAABBBCCCDDDEEE111222333"
-            letsencrypt_production: yes
-            include_intermediate: yes
+      roles:
+         - { role: username.rolename, x: 42 }
 
+License
+-------
 
-# TODO:
+BSD
 
-- Add support for multiple CN's
+Author Information
+------------------
 
-# License
-
-MIT
-
-# Author Information
-
-Created in 2017 by [Ben Dews](bendews.com)
+An optional section for the role authors to include contact information, or a website (HTML is not allowed).
