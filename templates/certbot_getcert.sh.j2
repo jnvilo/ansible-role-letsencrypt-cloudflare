@@ -1,0 +1,25 @@
+#!/bin/bash
+# Maintainer Jason Viloria <jason.viloria@optiscangroup.com
+# This script is created and deployed by ansible. Do not edit!
+# Your edits will be overwritten on next ansible run.
+# Instead edit ansible-role-letsencrypt-cloudflare used
+# for this server.
+
+CERTDIR="/etc/letsencrypt/live/$1"
+
+if [ ! -d $CERTDIR ]
+then
+
+    certbot certonly \
+    --dns-cloudflare \
+    --dns-cloudflare-credentials /root/.secrets/cloudflare.ini \
+    -d $1 \
+    -m {{cloudflare_email}} \
+    --agree-tos
+    --non-interactive
+    exit 0
+else
+        certbot renew
+        exit 0
+
+fi
