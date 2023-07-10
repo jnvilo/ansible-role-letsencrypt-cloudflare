@@ -1,0 +1,20 @@
+#!/bin/bash 
+
+# list the files in s3://letsencrypt/ and download the latest backup that matches
+# the  format: gitlab.optiscangroup.com-2016-10-31_00-00-00.tar.gz
+
+set -x
+
+# get the latest backup file
+LATEST_BACKUP=$(s3cmd ls s3://letsencrypt/ | sort | tail -n 1 | awk '{print $4}')
+
+# download the latest backup file if LATEST_BACKUP is not empty
+if [ -n "$LATEST_BACKUP" ]; then
+    s3cmd get $LATEST_BACKUP
+fi
+
+# extract the backup file to /etc/letsencrypt
+
+tar -xvf letsencrypt.tar.gz -C /etc/letsencrypt
+
+#remove the local copy 

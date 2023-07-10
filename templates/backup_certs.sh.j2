@@ -1,0 +1,25 @@
+#!/bin/bash 
+
+# Backup the letsencrypt certificates to a tarball
+# This script is run by the root user on the server
+
+# Set the date format, filename and the directories where your backup files will be placed and which directory will be archived.
+NOW=$(date +"%Y-%m-%d")
+FILE="letsencrypt_backup_$NOW.tar"
+BACKUP_DIR="/root/letsencrypt_backup"
+LE_DIR="/etc/letsencrypt"
+
+# Create the backup directory
+mkdir -p $BACKUP_DIR
+
+# Backup the files using tar.
+tar -cvf $BACKUP_DIR/$FILE $LE_DIR
+
+# Delete files older than 30 days
+find $BACKUP_DIR/* -mtime +30 -exec rm {} \;
+
+# Set the proper permissions on the backup directory
+chmod -R 600 $BACKUP_DIR
+
+# Upload the backup to S3
+s3cmd put $BACKUP_DIR/$FILE s3://letsencrypt/{{inventory_hostname}}letsencrypt_backup/$FILE

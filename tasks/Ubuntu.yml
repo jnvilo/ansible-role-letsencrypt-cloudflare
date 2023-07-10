@@ -1,0 +1,34 @@
+
+
+# ensure certbot, python3-certbot-dns-cloudflare, python3-certbot-apache are installed
+
+- name: install required packages for Ubuntu 20.04
+  package:
+    name: [certbot,python3-certbot-dns-cloudflare,python3-certbot-apache]
+    state: latest
+
+- name: ensure /root/.secrets dir exists 
+  file:
+    path: /root/.secrets
+    owner: root
+    group: root
+    state: directory
+    mode: '0700'
+
+- name: Set dns_cloudflare_api_token
+  template:
+    src: cloudflare.ini.j2
+    dest: /root/.secrets/cloudflare.ini
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Deploy certbot_getcert.sh
+  template:
+    src: certbot_getcert.sh.j2
+    dest: /usr/local/bin/certbot_getcert.sh
+    owner: root
+    group: root
+    mode: 0700
+
+    
